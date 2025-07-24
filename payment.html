@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <div class="payment-wrapper">
+    <div class="payment-box">
+      <h1>Complete Your Payment</h1>
+
+      <div id="summary"></div>
+
+      <form id="paymentForm" onsubmit="handlePayment(event)">
+        <label for="name">Name on Card</label>
+        <input type="text" id="name" required>
+
+        <label for="card">Card Number</label>
+        <input type="text" id="card" maxlength="16" inputmode="numeric" pattern="[0-9]*" required>
+
+        <label for="expiry">Expiry Date</label>
+        <input type="text" id="expiry" maxlength="5" placeholder="MM/YY" required>
+        <small id="expiry-error" style="color: red; display: none;">Invalid expiry date</small>
+
+        <label for="cvv">CVV</label>
+        <input type="password" id="cvv" maxlength="3" inputmode="numeric" pattern="[0-9]*" required>
+
+        <button type="submit">Pay Now</button>
+      </form>
+
+      <div id="payment-message" style="margin-top: 20px;"></div>
+    </div>
+  </div>
+
+  <script>
+    // Load dynamic header if needed
+    function loadHeader() {
+      fetch('header.html')
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById('header-placeholder').innerHTML = data;
+        });
+    }
+
+    loadHeader();
+
+    // Display order summary
+    function displaySummary() {
+      const city = sessionStorage.getItem('selectedCity');
+      const pickup = sessionStorage.getItem('pickupPoint');
+      const drop = sessionStorage.getItem('dropPoint');
+      const cost = sessionStorage.getItem('estimatedCost');
+
+      const summaryDiv = document.getElementById('summary');
+
+      if (city && pickup && drop && cost) {
+        summaryDiv.innerHTML = `
+          <p><strong>City:</strong> ${city}</p>
+          <p><strong>Pickup:</strong> ${pickup}</p>
+          <p><strong>Drop:</strong> ${drop}</p>
+          <p><strong>Amount to Pay:</strong> ₹${cost}</p>
+        `;
+      } else {
+        summaryDiv.innerHTML = `<p style="color: red;"><strong>Error:</strong> Missing delivery details.</p>`;
+      }
+    }
+
+    displaySummary();
+
+    const expiryInput = document.getElementById('expiry');
+    const expiryError = document.getElementById('expiry-error');
+
+    expiryInput.addEventListener('input', function (e) {
+      let value = e.target.value.replace(/[^0-9]/g, '');
+
+      if (value.length >= 3) {
+        value = value.slice(0, 2) + '/' + value.slice(2);
+      }
+
+      e.target.value = value.slice(0, 5);
+      expiryError.style.display = 'none';
+    });
+
+    function isValidExpiry(expiry) {
+      if (!/^\d{2}\/\d{2}$/.test(expiry)) return false;
+
+      const [month, year] = expiry.split('/').map(Number);
+      if (month < 1 || month > 12) return false;
+
+      const now = new Date();
+      const currentYear = now.getFullYear() % 100;
+      const currentMonth = now.getMonth() + 1;
+
+      return (year > currentYear || (year === currentYear && month >= currentMonth));
+    }
+
+    function handlePayment(event) {
+  event.preventDefault();
+  const message = document.getElementById('payment-message');
+  const expiryValue = expiryInput.value;
+
+  if (!isValidExpiry(expiryValue)) {
+    expiryError.style.display = 'block';
+    return;
+  }
+
+  // Gather form and sessionStorage data
+  const formData = {
+    Name: document.getElementById('name').value,
+    card_number: document.getElementById('card').value,
+    expiry_month: expiryValue.slice(0, 2),  // MM
+    expiry_year: expiryValue.slice(3, 5),   // YY
+    status: 'success'  // Status can be 'pending' or 'success' based on your use case
+  };
+
+  console.log("Sending payment data:", formData);  // Log the data before sending
+
+  // Send payment data to backend
+  fetch('http://localhost:3000/payment', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
+  })
+  
+    
+  .then(data => {
+    console.log("Payment response:", data);  // Log the response from the backend
+    message.innerHTML = `
+      <p style="color: green;"><strong>Payment Successful!</strong> Thank you for your order.</p>
+      <a href="index.html" style="display: inline-block; margin-top: 10px; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">Return to Home</a>
+    `;
+    document.getElementById('paymentForm').style.display = 'none';
+    sessionStorage.clear();
+   
+  
+  })
+  .catch(err => {
+    console.error("Payment failed:", err);
+    message.innerHTML = `<p style="color: red;"><strong>Payment failed.</strong> Please try again.</p>`;
+  });
+}
+
+  </script>
+</body>
+</html>

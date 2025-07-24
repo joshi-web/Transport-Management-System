@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+
+    <!-- Include Header -->
+    <div id="header-placeholder"></div>
+
+    <section class="services">
+        <h1 class="headr">Delivery hai? <br> <span>#HoJayega!</span></h1>
+        <h2 class="sub-header">Our Services</h2>
+        <div class="service-list">
+            <div class="service" onclick="goToEstimator('truck')">
+                <img src="img/truck.png" alt="Truck Service">
+                <h3>Goods Transport</h3>
+                <p>Fast and secure transportation for your goods.</p>
+            </div>
+            <div class="service" onclick="goToEstimator('bike')">
+                <img src="img/bike.png" alt="Bike Delivery">
+                <h3>Bike Courier</h3>
+                <p>Quick and reliable courier services for small parcels.</p>
+            </div>
+            <div class="service" onclick="goToEstimator('mini-truck')">
+                <img src="img/mini truck.jpg" alt="Mini Truck">
+                <h3>Mini Truck Rentals</h3>
+                <p>Flexible mini truck rentals for your business.</p>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // Load header dynamically
+        function loadHeader() {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading header:', error));
+        }
+
+        // Navigate to estimate page
+        function goToEstimator(vehicleType) {
+            window.location.href = `estimate.html?vehicle=${vehicleType}`;
+        }
+
+        // Call function to load header
+        loadHeader();
+    </script>
+
+    <footer>
+        <p>&copy; 2025 TransportCo | All Rights Reserved</p>
+    </footer>
+
+</body>
+</html>

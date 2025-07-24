@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Estimate Delivery</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Header placeholder -->
+  <div id="header-placeholder"></div>
+
+  <div id="cityBackground" class="estimator-wrapper">
+    <div class="estimator">
+      <h1>Estimate Your Delivery</h1>
+
+      <label for="city">Select City</label>
+      <select id="city" onchange="updateSpotsAndBackground()">
+        <option value="">--Choose City--</option>
+        <option value="mumbai">Mumbai</option>
+        <option value="delhi">Delhi</option>
+        <option value="bangalore">Bangalore</option>
+        <option value="hyderabad">Hyderabad</option>
+        <option value="chennai">Chennai</option>
+        <option value="kolkata">Kolkata</option>
+        <option value="pune">Pune</option>
+        <option value="ahmedabad">Ahmedabad</option>
+        <option value="jaipur">Jaipur</option>
+        <option value="lucknow">Lucknow</option>
+      </select>
+
+      <label for="pickup">Pickup Point</label>
+      <select id="pickup">
+        <option value="">--Select Pickup--</option>
+      </select>
+
+      <label for="drop">Drop Point</label>
+      <select id="drop">
+        <option value="">--Select Drop--</option>
+      </select>
+
+      <button onclick="calculateEstimate()">Calculate Estimate</button>
+
+      <div id="output"></div>
+
+      <div id="proceedBtn" style="display:none; margin-top: 15px;">
+        <button onclick="goToPayment()">Proceed to Payment</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const citySpots = {
+      mumbai: ["Gateway of India", "Marine Drive", "Chhatrapati Shivaji Station", "Bandra Kurla Complex"],
+      delhi: ["India Gate", "Red Fort", "Connaught Place", "Qutub Minar"],
+      bangalore: ["MG Road", "Electronic City", "Whitefield", "Majestic"],
+      hyderabad: ["Charminar", "Gachibowli", "Banjara Hills", "Hitech City"],
+      chennai: ["Marina Beach", "T. Nagar", "Guindy", "Velachery"],
+      kolkata: ["Howrah Bridge", "Victoria Memorial", "Park Street", "Salt Lake"],
+      pune: ["Shivajinagar", "Kothrud", "Viman Nagar", "Hinjewadi"],
+      ahmedabad: ["Sabarmati Ashram", "CG Road", "Maninagar", "Gandhinagar"],
+      jaipur: ["Hawa Mahal", "MI Road", "Amer Fort", "Malviya Nagar"],
+      lucknow: ["Hazratganj", "Gomti Nagar", "Charbagh", "Alambagh"]
+    };
+
+    function updateSpotsAndBackground() {
+      const city = document.getElementById('city').value;
+      const pickup = document.getElementById('pickup');
+      const drop = document.getElementById('drop');
+
+      pickup.innerHTML = '<option value="">--Select Pickup--</option>';
+      drop.innerHTML = '<option value="">--Select Drop--</option>';
+
+      if (citySpots[city]) {
+        citySpots[city].forEach(spot => {
+          pickup.add(new Option(spot, spot));
+          drop.add(new Option(spot, spot));
+        });
+      }
+
+      const background = document.getElementById('cityBackground');
+      const imageUrl = city ? `img/${city}.jpg` : '';
+      background.style.backgroundImage = imageUrl
+        ? `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${imageUrl})`
+        : 'none';
+    }
+
+    function calculateEstimate() {
+      const city = document.getElementById('city').value;
+      const pickup = document.getElementById('pickup').value;
+      const drop = document.getElementById('drop').value;
+      const output = document.getElementById('output');
+      const proceedBtn = document.getElementById('proceedBtn');
+
+      if (pickup && drop && pickup !== drop) {
+        const cost = Math.floor(Math.random() * 200) + 100; // Random cost for example
+        output.innerHTML = `<strong>Estimated delivery cost:</strong> ₹${cost}`;
+        proceedBtn.style.display = 'block';
+
+        // Store data in sessionStorage
+        sessionStorage.setItem('selectedCity', city);
+        sessionStorage.setItem('pickupPoint', pickup);
+        sessionStorage.setItem('dropPoint', drop);
+        sessionStorage.setItem('estimatedCost', cost);
+      } else {
+        output.innerText = 'Please select valid pickup and drop points.';
+        proceedBtn.style.display = 'none';
+      }
+    }
+
+    function goToPayment() {
+      window.location.href = 'payment.html';
+    }
+
+    // Load header dynamically
+    function loadHeader() {
+      fetch('header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('header-placeholder').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading header:', error));
+    }
+
+    loadHeader();
+
+    
+  </script>
+</body>
+</html>

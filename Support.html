@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Support - Help Center</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <body class="support-page">
+
+  <!-- Header Same as Index Page -->
+ <!-- Include Header -->
+ <div id="header-placeholder"></div>
+
+  <!-- Help Center Content -->
+  <section class="support-header">
+    <h2>HELP CENTER</h2>
+    <p>Need assistance? We’re happy to help, reach us out through the appropriate channels below.</p>
+  </section>
+
+  <section class="cards">
+    <div class="card">
+      <h3>CUSTOMER SUPPORT</h3>
+      <p><a href="#">Click here</a> to read our FAQs</p>
+      <p>Email: <a href="mailto:help@TransportCo.in">help@TransportCo.in</a><br>Call: 022 4410 4410</p>
+    </div>
+    <div class="card">
+      <h3>PACKERS AND MOVERS</h3>
+      <p>Email: <a href="mailto:packermover@TransportCo.in">packermover@TransportCo.in</a><br>Call: 022 4410 4444 / 022 6268 4444</p>
+    </div>
+    
+    <div class="card">
+      <h3>DRIVE WITH PORTER</h3>
+      <p>Have a vehicle? <a href="#">Click here</a> or call 022 4410 4410 (add your city code)</p>
+    </div>
+  </section>
+
+  <section class="offices">
+    <h2>Our Offices</h2>
+
+    <div class="office-section">
+      <h3>HEAD OFFICE</h3>
+      <div class="office-location">
+        <strong>Balewadi</strong><br>
+        TransportCo Head Office, SKP campus,<br>
+        DIMR 1st Floor, Balewadi Road,<br>
+        Balewadi, pune 411045<br>
+        <a class="get-directions" href="https://www.google.com/maps/place/DIMR+College/@18.572909,73.7733654,17z/data=!3m1!4b1!4m6!3m5!1s0x3bc2b900052b69a9:0xafe6e8e35b1a08ce!8m2!3d18.572909!4d73.7733654!16s%2Fg%2F11w23xzw82?entry=ttu&g_ep=EgoyMDI1MDQwMi4xIKXMDSoASAFQAw%3D%3D">Get Directions →</a>
+      </div>
+    </div>
+
+    <div class="office-section">
+      <h3>REGIONAL OFFICES</h3>
+      <div class="office-location">
+        <strong>Beed</strong><br>
+        Samta Colony, Beed - 431122<br>
+        <a class="get-directions" href="https://www.google.com/maps/place/Beed,+Maharashtra+431122/@18.9965468,75.7079434,13z/data=!3m1!4b1!4m6!3m5!1s0x3bc52b20818bd2d3:0x5d6c6b3e2c7dae70!8m2!3d18.990088!4d75.7531324!16zL20vMDVuNXYy?entry=ttu&g_ep=EgoyMDI1MDQwMi4xIKXMDSoASAFQAw%3D%3D">Get Directions →</a>
+      </div>
+
+      <div class="office-location">
+        <strong>Delhi NCR</strong><br>
+        Plot No.9R , Phase - 1, New Delhi - 110020<br>
+        <a class="get-directions" href="https://www.google.com/maps/place/Delhi/@28.6442873,76.7635399,10z/data=!3m1!4b1!4m6!3m5!1s0x390cfd5b347eb62d:0x37205b715389640!8m2!3d28.7040592!4d77.1024902!16zL20vMDlmMDc?entry=ttu&g_ep=EgoyMDI1MDQwMi4xIKXMDSoASAFQAw%3D%3D">Get Directions →</a>
+      </div>
+    </div>
+  </section>
+  <script>
+    // Load header dynamically
+    function loadHeader() {
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    }
+
+    // Call function to load header
+    loadHeader();
+</script>
+
+  <footer>
+    <p>&copy; 2025 TransportCo | All Rights Reserved</p>
+  </footer>
+
+</body>
+</html>
