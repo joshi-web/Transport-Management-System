@@ -161,7 +161,7 @@ footer {
 
 /* Login Page */
 .login-body {
-    background: url('img/background.png') no-repeat center/cover;
+    background: url('background.png') no-repeat center/cover;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -513,7 +513,7 @@ body {
   /*delivery*/
   /*delivery*/
   body.delivery-partner {
-    background: url('./img/delivery\ man.webp') no-repeat center center fixed;
+    background: url('delivery\ man.webp') no-repeat center center fixed;
     background-size: cover;
     background-color: #fcfcfc00;
     color: white;
