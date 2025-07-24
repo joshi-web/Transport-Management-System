@@ -79,7 +79,7 @@
       }
 
       const background = document.getElementById('cityBackground');
-      const imageUrl = city ? `img/${city}.jpg` : '';
+      const imageUrl = city ? `${city}.jpg` : '';
       background.style.backgroundImage = imageUrl
         ? `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${imageUrl})`
         : 'none';
